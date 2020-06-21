@@ -1,34 +1,21 @@
-import newspaper    # need pip install newspaper3k in python3.x env
-url = 'https://www.sina.com.cn/'
-newsAnalysis = newspaper.build(url, language='zh')
+# -*- coding: utf-8 -*-
+# filename: main.py
+import web
+from handle import Handle
 
-result = {"reason": "success"}
-newsResult = {"stat": "1"}
-data = []
+urls = (    # urls是一个元组变量，成员必须成对出现，奇数元素表示url，其后的元素表示对应的处理类
+    '/news', 'Handle',
+)
 
-for article in newsAnalysis.articles:
-    news = {}
-    try:
-        article.download()
-        article.parse()
-        news["title"] = article.title
-        news["url"] = article.url
-        if len(article.authors) > 0:
-            news["author_name"] = article.authors[0]
-        else:
-            news["author_name"] = "NULL"
-        news["date"] = article.publish_date.strftime("%Y-%m-%d")
-        news["thumbnail_pic_s"] = article.top_image
-        data.append(news)
-    except:
-        news["title"] = "NULL"
-        news["url"] = "NULL"
-        continue
+# 线上部署，web.py提供了WSGI支持，可以将其架设在apache等web服务器之上
+# app = web.application(urls, globals())
+# application = app.wsgifunc()
 
-# for category in news.category_urls():
-#     print(category)
+# 本地调试, http://127.0.0.1:8080/news
+if __name__ == "__main__":
+    app = web.application(urls, globals())
+    app.run()
 
-newsResult["data"] = data
-result["result"] = newsResult
-
-print(result)
+# if __name__ == '__main__':
+    # web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    # app.run()
