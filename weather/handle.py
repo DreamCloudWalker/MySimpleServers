@@ -63,7 +63,7 @@ def get_data(html_text):
 
 class Handle(object):
     def GET(self):
-        base_url = "http://www.weather.com.cn/weather/";
+        base_url = "http://www.weather.com.cn/weather/"
         param = web.input().city # "101280601" #request.values.get('city')
         suffix = ".shtml"
         html_doc = get_html(base_url + param + suffix)
