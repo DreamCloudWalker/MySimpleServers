@@ -7,12 +7,12 @@ def get_html(url):
     return newspaper.build(url, language='zh')
 
 
-def get_data(newsAnalysis):
+def get_data(content):
     result = {"reason": "success"}
-    newsResult = {"stat": "1"}
+    newsresult = {"stat": "1"}
     data = []
 
-    for article in newsAnalysis.articles:
+    for article in content.articles:
         news = {}
         try:
             article.download()
@@ -34,8 +34,8 @@ def get_data(newsAnalysis):
     # for category in news.category_urls():
     #     print(category)
 
-    newsResult["data"] = data
-    result["result"] = newsResult
+    newsresult["data"] = data
+    result["result"] = newsresult
     print(result)
 
     return result
